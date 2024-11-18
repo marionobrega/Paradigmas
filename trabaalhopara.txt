@@ -1,0 +1,32 @@
+% Fatos
+% candidato(Nome, Cargo, Votos)
+candidato(joao, prefeito, 1500).
+candidato(maria, vereador, 1200).
+candidato(carlos, vereador, 900).
+candidato(ana, prefeito, 1800).
+candidato(pedro, governador, 2000).
+candidato(luiza, governador, 1700).
+
+% Regra para contar os votos por cargo
+contar_votos_por_cargo(Cargo, TotalVotos) :-
+    findall(Votos, candidato(_, Cargo, Votos), ListaVotos),
+    sum_list(ListaVotos, TotalVotos).
+
+% Regra para listar candidatos para um cargo específico
+listar_candidatos_por_cargo(Cargo, ListaCandidatos) :-
+    findall(Nome, candidato(Nome, Cargo, _), ListaCandidatos).
+
+% Regra para listar cargos que um candidato está disputando
+listar_cargos_por_candidato(Nome, ListaCargos) :-
+    findall(Cargo, candidato(Nome, Cargo, _), ListaCargos).
+
+% Inicialização para executar ao carregar o programa
+:- initialization(exemplo).
+
+
+% Exemplo de execução inicial
+exemplo :-
+    contar_votos_por_cargo(prefeito, TotalVotos),
+    format("Total de votos para prefeito: ~w~n", [TotalVotos]),
+    listar_candidatos_por_cargo(vereador, ListaCandidatos),
+    format("Candidatos para vereador: ~w~n", [ListaCandidatos]).
